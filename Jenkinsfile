@@ -17,16 +17,16 @@ pipeline {
         }
 
         stage('Push to DockerHub') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    script {
-                        docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
-                            dockerImage.push("latest")
-                        }
-                    }
-                }
+    steps {
+        script {
+            docker.withRegistry('', 'dockerhub-password') {
+                sh 'docker tag e-commerce vasanth4747/e-commerce:latest'
+                sh 'docker push vasanth4747/e-commerce:latest'
             }
         }
+    }
+}
+
 
         stage('Deploy to Kubernetes') {
             steps {
